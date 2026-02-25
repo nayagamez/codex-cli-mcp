@@ -14,7 +14,7 @@ Use this tool to start a new coding task with Codex. The response includes a Thr
 
 const schema = {
   prompt: z.string().describe('The prompt to send to Codex'),
-  model: z.string().optional().describe('Model name (e.g. "gpt-4.1", "o4-mini", "o3")'),
+  model: z.string().optional().describe('Model name override. Do NOT set this unless the user explicitly requests a specific model. Codex CLI uses its own configured default.'),
   sandbox: z
     .enum(['read-only', 'workspace-write', 'danger-full-access'])
     .optional()

@@ -17,7 +17,7 @@ const schema = {
   threadId: z
     .string()
     .describe('The thread ID from a previous codex tool call'),
-  model: z.string().optional().describe('Model name (e.g. "gpt-4.1", "o4-mini", "o3")'),
+  model: z.string().optional().describe('Model name override. Do NOT set this unless the user explicitly requests a specific model. Codex CLI uses its own configured default.'),
   config: z
     .record(z.string(), z.string())
     .optional()
