@@ -90,6 +90,7 @@ export interface CodexExecOptions {
   cwd?: string
   profile?: string
   config?: Record<string, string>
+  timeout?: number
 }
 
 export interface CodexResumeOptions {
@@ -97,4 +98,5 @@ export interface CodexResumeOptions {
   threadId: string
   model?: string
   config?: Record<string, string>
+  timeout?: number
 }

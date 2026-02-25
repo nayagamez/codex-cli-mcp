@@ -131,9 +131,9 @@ function extractTextFromContent(
 /**
  * Run a Codex CLI subprocess and collect the result.
  */
-function runCodex(command: string, args: string[], stdinContent: string): Promise<CodexResult> {
+function runCodex(command: string, args: string[], stdinContent: string, overrideTimeoutMs?: number): Promise<CodexResult> {
   return new Promise((resolve, reject) => {
-    const timeoutMs = getTimeoutMs()
+    const timeoutMs = overrideTimeoutMs && overrideTimeoutMs > 0 ? overrideTimeoutMs : getTimeoutMs()
     const shellCmd = buildShellCommand(command, args)
 
     log.debug('Spawning:', shellCmd)
@@ -289,7 +289,7 @@ export async function execCodex(options: CodexExecOptions): Promise<CodexResult>
   const command = getCodexCommand()
   const args = buildExecArgs(options)
   log.info('Starting new Codex session')
-  return runCodex(command, args, options.prompt)
+  return runCodex(command, args, options.prompt, options.timeout)
 }
 
 /**
@@ -299,5 +299,5 @@ export async function resumeCodex(options: CodexResumeOptions): Promise<CodexRes
   const command = getCodexCommand()
   const args = buildResumeArgs(options)
   log.info(`Resuming Codex session: ${options.threadId}`)
-  return runCodex(command, args, options.prompt)
+  return runCodex(command, args, options.prompt, options.timeout)
 }

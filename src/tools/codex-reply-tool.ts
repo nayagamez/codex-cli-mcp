@@ -22,12 +22,16 @@ const schema = {
     .record(z.string(), z.string())
     .optional()
     .describe('Config overrides as key-value pairs (passed as -c key=value)'),
+  timeout: z
+    .number()
+    .optional()
+    .describe('Timeout in milliseconds (default: 600000 = 10 min). Increase for long-running tasks.'),
 }
 
 export function registerCodexReplyTool(server: McpServer): void {
-  server.tool('codex-reply', DESCRIPTION, schema, async ({ prompt, threadId, model, config }) => {
+  server.tool('codex-reply', DESCRIPTION, schema, async ({ prompt, threadId, model, config, timeout }) => {
     try {
-      const result = await resumeCodex({ prompt, threadId, model, config })
+      const result = await resumeCodex({ prompt, threadId, model, config, timeout })
       const text = formatResult(result)
       const isError = result.errors.length > 0 && result.messages.length === 0
 

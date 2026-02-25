@@ -80,6 +80,7 @@ Start a new Codex CLI session.
 | `cwd` | string | No | Working directory for the session |
 | `profile` | string | No | Configuration profile from config.toml |
 | `config` | object | No | Config overrides as key-value pairs |
+| `timeout` | number | No | Timeout in ms (default: `600000` = 10 min) |
 
 ### `codex-reply`
 
@@ -91,6 +92,7 @@ Continue an existing Codex CLI session.
 | `threadId` | string | Yes | Thread ID from a previous `codex` call |
 | `model` | string | No | Model name override |
 | `config` | object | No | Config overrides as key-value pairs |
+| `timeout` | number | No | Timeout in ms (default: `600000` = 10 min) |
 
 ## MCP Client Configuration
 

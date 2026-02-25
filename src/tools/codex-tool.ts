@@ -25,12 +25,16 @@ const schema = {
     .record(z.string(), z.string())
     .optional()
     .describe('Config overrides as key-value pairs (passed as -c key=value)'),
+  timeout: z
+    .number()
+    .optional()
+    .describe('Timeout in milliseconds (default: 600000 = 10 min). Increase for long-running tasks.'),
 }
 
 export function registerCodexTool(server: McpServer): void {
-  server.tool('codex', DESCRIPTION, schema, async ({ prompt, model, sandbox, cwd, profile, config }) => {
+  server.tool('codex', DESCRIPTION, schema, async ({ prompt, model, sandbox, cwd, profile, config, timeout }) => {
     try {
-      const result = await execCodex({ prompt, model, sandbox, cwd, profile, config })
+      const result = await execCodex({ prompt, model, sandbox, cwd, profile, config, timeout })
       const text = formatResult(result)
       const isError = result.errors.length > 0 && result.messages.length === 0
 

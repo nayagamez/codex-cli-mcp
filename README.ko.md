@@ -80,6 +80,7 @@ npx @nayagamez/codex-cli-mcp
 | `cwd` | string | X | 작업 디렉토리 |
 | `profile` | string | X | config.toml의 프로필 |
 | `config` | object | X | key-value 형태의 설정 오버라이드 |
+| `timeout` | number | X | 타임아웃 ms (기본값: `600000` = 10분) |
 
 ### `codex-reply`
 
@@ -91,6 +92,7 @@ npx @nayagamez/codex-cli-mcp
 | `threadId` | string | O | 이전 `codex` 호출에서 받은 Thread ID |
 | `model` | string | X | 모델명 오버라이드 |
 | `config` | object | X | key-value 형태의 설정 오버라이드 |
+| `timeout` | number | X | 타임아웃 ms (기본값: `600000` = 10분) |
 
 ## MCP 클라이언트 설정
 
