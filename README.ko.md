@@ -132,12 +132,29 @@ MCP 설정에 추가:
 claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
 ```
 
+## Progress Notifications
+
+서버는 Codex가 요청을 처리하는 동안 MCP progress notification을 실시간으로 전송합니다. MCP 클라이언트는 서버가 hang이 아닌 처리 중임을 확인할 수 있습니다.
+
+전송되는 메시지 예시:
+- `[5s] Session started (thread: ...)` — 세션 시작
+- `[12s] Command executed: npm test` — 명령어 실행
+- `[18s] Message: Refactoring the auth module...` — 에이전트 추론
+- `[25s] Turn completed` — 턴 완료
+
+### Idle 기반 타임아웃
+
+타임아웃은 절대 시간이 아닌 **idle 기반**입니다. Codex에서 이벤트가 수신될 때마다 타이머가 리셋됩니다. 따라서 지속적으로 활동이 있는 장시간 작업은 타임아웃되지 않고, 실제로 멈춘 프로세스만 kill됩니다.
+
+- 기본 idle 타임아웃: **10분**
+- 호출마다 `timeout` 파라미터로 오버라이드하거나, `CODEX_TIMEOUT_MS`로 전역 설정 가능
+
 ## 환경 변수
 
 | 변수 | 기본값 | 설명 |
 |------|--------|------|
 | `CODEX_CLI_PATH` | `codex` | Codex CLI 바이너리 경로 |
-| `CODEX_TIMEOUT_MS` | `600000` (10분) | Codex 프로세스 타임아웃 |
+| `CODEX_TIMEOUT_MS` | `600000` (10분) | Codex 프로세스 idle 타임아웃 |
 | `CODEX_MCP_DEBUG` | _(미설정)_ | 설정 시 stderr에 디버그 로그 출력 |
 
 ## 동작 방식
@@ -146,14 +163,16 @@ claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
 MCP 클라이언트  →  도구 호출 (codex / codex-reply)
                →  `codex exec --json --full-auto` 서브프로세스 실행
                →  stdout에서 JSONL 이벤트 스트리밍 및 파싱
-               →  포맷된 결과를 MCP 클라이언트에 반환
+               →  클라이언트에 progress notification 전송
+               →  완료 시 포맷된 결과 반환
 ```
 
 1. MCP 클라이언트가 도구 호출(`codex` 또는 `codex-reply`)을 전송
 2. 서버가 `--json`, `--full-auto` 플래그로 Codex CLI 실행
 3. 프롬프트를 stdin으로 전달
 4. JSONL 이벤트를 실시간으로 스트리밍 및 파싱
-5. 결과(메시지, 실행된 명령어, 에러, 토큰 사용량)를 마크다운으로 포맷하여 반환
+5. 각 이벤트마다 클라이언트에 progress notification 전송 (idle 타이머 리셋)
+6. 결과(메시지, 실행된 명령어, 에러, 토큰 사용량)를 마크다운으로 포맷하여 반환
 
 ## 라이선스
 

@@ -132,12 +132,29 @@ Add to your MCP settings:
 claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
 ```
 
+## Progress Notifications
+
+The server sends MCP progress notifications in real-time as Codex processes your request. This lets MCP clients know the server is alive and working, not hanging.
+
+Progress messages include:
+- `[5s] Session started (thread: ...)` — session initialized
+- `[12s] Command executed: npm test` — a command was run
+- `[18s] Message: Refactoring the auth module...` — agent reasoning
+- `[25s] Turn completed` — turn finished
+
+### Idle-based Timeout
+
+The timeout is **idle-based**, not absolute. The timer resets every time the server receives an event from Codex. This means long-running tasks with continuous activity will never timeout, while truly stuck processes will be killed after the configured idle period.
+
+- Default idle timeout: **10 minutes**
+- Override per-call via `timeout` parameter, or globally via `CODEX_TIMEOUT_MS`
+
 ## Environment Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `CODEX_CLI_PATH` | `codex` | Path to the Codex CLI binary |
-| `CODEX_TIMEOUT_MS` | `600000` (10 min) | Timeout for Codex process execution |
+| `CODEX_TIMEOUT_MS` | `600000` (10 min) | Idle timeout for Codex process |
 | `CODEX_MCP_DEBUG` | _(unset)_ | Set to enable debug logging to stderr |
 
 ## How It Works
@@ -145,15 +162,17 @@ claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
 ```
 MCP Client  →  Tool Call (codex / codex-reply)
             →  Spawn `codex exec --json --full-auto` as subprocess
-            →  Stream and parse JSONL events from stdout
-            →  Return formatted results to MCP client
+            →  Stream JSONL events from stdout
+            →  Send progress notifications back to client
+            →  Return formatted results when done
 ```
 
 1. The MCP client sends a tool call (`codex` or `codex-reply`)
 2. The server spawns Codex CLI with `--json` and `--full-auto` flags
 3. The prompt is passed via stdin
 4. JSONL events are streamed and parsed in real-time
-5. Results (messages, commands, errors, token usage) are formatted as markdown and returned
+5. Progress notifications are sent to the client on each event (idle timer resets)
+6. Results (messages, commands, errors, token usage) are formatted as markdown and returned
 
 ## License
 
