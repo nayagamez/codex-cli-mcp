@@ -1,8 +1,26 @@
-# @nayagamez/codex-cli-mcp
+<div align="center">
 
-[English](./README.md)
+<picture>
+  <img alt="codex-cli-mcp" src="docs/images/banner.svg" width="100%">
+</picture>
 
-[OpenAI Codex CLI](https://github.com/openai/codex)를 MCP 도구로 래핑한 MCP(Model Context Protocol) 서버입니다. Claude Desktop, Cursor, Windsurf 등의 MCP 클라이언트에서 Codex CLI를 헤드리스 모드로 실행할 수 있습니다.
+### OpenAI Codex CLI를 MCP 클라이언트에 연결하세요
+
+[English](./README.md) | 한국어
+
+<a href="https://www.npmjs.com/package/@nayagamez/codex-cli-mcp">npm</a> · <a href="https://github.com/nayagamez/codex-cli-mcp">GitHub</a> · <a href="https://github.com/nayagamez/codex-cli-mcp/issues">Issues</a>
+
+[![npm version](https://img.shields.io/npm/v/@nayagamez/codex-cli-mcp?color=00d4aa&label=npm)](https://www.npmjs.com/package/@nayagamez/codex-cli-mcp)
+[![license](https://img.shields.io/github/license/nayagamez/codex-cli-mcp?color=7b61ff)](https://github.com/nayagamez/codex-cli-mcp/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/nayagamez/codex-cli-mcp?style=social)](https://github.com/nayagamez/codex-cli-mcp)
+
+</div>
+
+---
+
+## 개요
+
+[OpenAI Codex CLI](https://github.com/openai/codex)를 MCP 도구로 래핑한 MCP(Model Context Protocol) 서버입니다. **Claude Desktop**, **Cursor**, **Windsurf** 등의 MCP 클라이언트에서 Codex CLI를 헤드리스 모드로 실행할 수 있습니다.
 
 ## 사전 준비
 

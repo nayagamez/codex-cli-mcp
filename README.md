@@ -1,8 +1,26 @@
-# @nayagamez/codex-cli-mcp
+<div align="center">
 
-[한국어](./README.ko.md)
+<picture>
+  <img alt="codex-cli-mcp" src="docs/images/banner.svg" width="100%">
+</picture>
 
-An MCP (Model Context Protocol) server that wraps [OpenAI Codex CLI](https://github.com/openai/codex) as tools. It enables MCP clients like Claude Desktop, Cursor, and Windsurf to run Codex CLI sessions in headless mode.
+### Bridge OpenAI Codex CLI to any MCP client
+
+English | [한국어](./README.ko.md)
+
+<a href="https://www.npmjs.com/package/@nayagamez/codex-cli-mcp">npm</a> · <a href="https://github.com/nayagamez/codex-cli-mcp">GitHub</a> · <a href="https://github.com/nayagamez/codex-cli-mcp/issues">Issues</a>
+
+[![npm version](https://img.shields.io/npm/v/@nayagamez/codex-cli-mcp?color=00d4aa&label=npm)](https://www.npmjs.com/package/@nayagamez/codex-cli-mcp)
+[![license](https://img.shields.io/github/license/nayagamez/codex-cli-mcp?color=7b61ff)](https://github.com/nayagamez/codex-cli-mcp/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/nayagamez/codex-cli-mcp?style=social)](https://github.com/nayagamez/codex-cli-mcp)
+
+</div>
+
+---
+
+## Overview
+
+An MCP (Model Context Protocol) server that wraps [OpenAI Codex CLI](https://github.com/openai/codex) as tools. It enables MCP clients like **Claude Desktop**, **Cursor**, and **Windsurf** to run Codex CLI sessions in headless mode.
 
 ## Prerequisites
 

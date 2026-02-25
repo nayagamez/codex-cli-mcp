@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f23;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a1a3e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d1b2a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7b61ff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4aa;stop-opacity:0.3" />
+      <stop offset="50%" style="stop-color:#7b61ff;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#00d4aa;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="300" fill="url(#bg)" rx="12"/>
+
+  <!-- Decorative grid lines -->
+  <g opacity="0.06" stroke="#ffffff" stroke-width="0.5">
+    <line x1="0" y1="60" x2="1200" y2="60"/>
+    <line x1="0" y1="120" x2="1200" y2="120"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/>
+    <line x1="0" y1="240" x2="1200" y2="240"/>
+    <line x1="200" y1="0" x2="200" y2="300"/>
+    <line x1="400" y1="0" x2="400" y2="300"/>
+    <line x1="600" y1="0" x2="600" y2="300"/>
+    <line x1="800" y1="0" x2="800" y2="300"/>
+    <line x1="1000" y1="0" x2="1000" y2="300"/>
+  </g>
+
+  <!-- Accent line top -->
+  <rect x="0" y="0" width="1200" height="3" fill="url(#accent)" rx="1"/>
+
+  <!-- Terminal icon -->
+  <g transform="translate(410, 75)">
+    <rect x="0" y="0" width="44" height="36" rx="6" fill="none" stroke="url(#accent)" stroke-width="2.5"/>
+    <text x="9" y="25" font-family="monospace" font-size="20" font-weight="bold" fill="url(#accent)">$_</text>
+  </g>
+
+  <!-- Arrow -->
+  <g transform="translate(470, 82)">
+    <line x1="0" y1="10" x2="30" y2="10" stroke="#00d4aa" stroke-width="2" opacity="0.6"/>
+    <polygon points="30,5 40,10 30,15" fill="#00d4aa" opacity="0.6"/>
+  </g>
+
+  <!-- MCP icon -->
+  <g transform="translate(525, 75)">
+    <circle cx="18" cy="18" r="18" fill="none" stroke="url(#accent)" stroke-width="2.5"/>
+    <circle cx="18" cy="10" r="3" fill="#7b61ff"/>
+    <circle cx="10" cy="24" r="3" fill="#00d4aa"/>
+    <circle cx="26" cy="24" r="3" fill="#00d4aa"/>
+    <line x1="18" y1="10" x2="10" y2="24" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+    <line x1="18" y1="10" x2="26" y2="24" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+    <line x1="10" y1="24" x2="26" y2="24" stroke="#ffffff" stroke-width="1.2" opacity="0.4"/>
+  </g>
+
+  <!-- Main title -->
+  <text x="600" y="170" text-anchor="middle" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" letter-spacing="-1">
+    <tspan fill="#ffffff">codex</tspan>
+    <tspan fill="#ffffff" opacity="0.4">-</tspan>
+    <tspan fill="#ffffff">cli</tspan>
+    <tspan fill="#ffffff" opacity="0.4">-</tspan>
+    <tspan fill="url(#accent)">mcp</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="210" text-anchor="middle" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="18" fill="#8892b0" letter-spacing="2">
+    Bridge OpenAI Codex CLI to any MCP client
+  </text>
+
+  <!-- Bottom tags -->
+  <g transform="translate(420, 240)">
+    <rect x="0" y="0" width="80" height="26" rx="13" fill="#00d4aa" opacity="0.15"/>
+    <text x="40" y="17" text-anchor="middle" font-family="monospace" font-size="12" fill="#00d4aa">Codex CLI</text>
+  </g>
+  <g transform="translate(500, 240)">
+    <rect x="0" y="0" width="50" height="26" rx="13" fill="#7b61ff" opacity="0.15"/>
+    <text x="25" y="17" text-anchor="middle" font-family="monospace" font-size="12" fill="#7b61ff">MCP</text>
+  </g>
+  <g transform="translate(560, 240)">
+    <rect x="0" y="0" width="70" height="26" rx="13" fill="#00d4aa" opacity="0.15"/>
+    <text x="35" y="17" text-anchor="middle" font-family="monospace" font-size="12" fill="#00d4aa">stdio</text>
+  </g>
+  <g transform="translate(640, 240)">
+    <rect x="0" y="0" width="90" height="26" rx="13" fill="#7b61ff" opacity="0.15"/>
+    <text x="45" y="17" text-anchor="middle" font-family="monospace" font-size="12" fill="#7b61ff">headless</text>
+  </g>
+
+  <!-- Accent line bottom -->
+  <rect x="0" y="297" width="1200" height="3" fill="url(#accent)" rx="1"/>
+</svg>
