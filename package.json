@@ -1,11 +1,11 @@
 {
-  "name": "@nayagamez/codex-mcp-server",
+  "name": "@nayagamez/codex-cli-mcp",
   "version": "0.1.0",
   "description": "MCP server wrapping Codex CLI (codex exec) as tools",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "codex-mcp-server": "dist/index.js"
+    "codex-cli-mcp": "dist/index.js"
   },
   "files": [
     "dist"
@@ -24,7 +24,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nayagamez/codex-mcp-server.git"
+    "url": "https://github.com/nayagamez/codex-cli-mcp.git"
   },
   "publishConfig": {
     "access": "public",
