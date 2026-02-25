@@ -1,6 +1,19 @@
 # @nayagamez/codex-cli-mcp
 
+[한국어](./README.ko.md)
+
 An MCP (Model Context Protocol) server that wraps [OpenAI Codex CLI](https://github.com/openai/codex) as tools. It enables MCP clients like Claude Desktop, Cursor, and Windsurf to run Codex CLI sessions in headless mode.
+
+## Prerequisites
+
+1. Install [Codex CLI](https://github.com/openai/codex) and make sure it is available in your PATH:
+   ```bash
+   npm install -g @openai/codex
+   ```
+2. Set your OpenAI API key:
+   ```bash
+   export OPENAI_API_KEY="your-api-key"
+   ```
 
 ## Installation
 
@@ -13,11 +26,6 @@ Or run directly with npx:
 ```bash
 npx @nayagamez/codex-cli-mcp
 ```
-
-### Prerequisites
-
-- [Codex CLI](https://github.com/openai/codex) must be installed and available in your PATH
-- An OpenAI API key configured for Codex CLI
 
 ## Tools
 
@@ -88,7 +96,7 @@ claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `CODEX_CLI_PATH` | `codex` | Path to the Codex CLI binary |
-| `CODEX_TIMEOUT_MS` | `300000` (5 min) | Timeout for Codex process execution |
+| `CODEX_TIMEOUT_MS` | `600000` (10 min) | Timeout for Codex process execution |
 | `CODEX_MCP_DEBUG` | _(unset)_ | Set to enable debug logging to stderr |
 
 ## How It Works
