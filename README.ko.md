@@ -54,18 +54,6 @@ export OPENAI_API_KEY="your-api-key"
 
 자세한 내용은 [Codex 인증 문서](https://developers.openai.com/codex/auth/)를 참고하세요.
 
-## 설치
-
-```bash
-npm install -g @nayagamez/codex-cli-mcp
-```
-
-또는 npx로 바로 실행:
-
-```bash
-npx @nayagamez/codex-cli-mcp
-```
-
 ## 도구
 
 ### `codex`
@@ -94,9 +82,28 @@ npx @nayagamez/codex-cli-mcp
 | `config` | object | X | key-value 형태의 설정 오버라이드 |
 | `timeout` | number | X | 타임아웃 ms (기본값: `600000` = 10분) |
 
-## MCP 클라이언트 설정
+## 설정
 
-### Claude Desktop
+### 사람용
+
+아래 프롬프트를 LLM 에이전트에 붙여넣으면 자동으로 설치 및 설정해 줍니다:
+
+```
+Install and configure @nayagamez/codex-cli-mcp by following: https://raw.githubusercontent.com/nayagamez/codex-cli-mcp/main/docs/guide/installation.md
+```
+
+직접 설정하려면 아래 [수동 설정](#수동-설정)을 참고하세요.
+
+### LLM 에이전트용
+
+```bash
+curl -s https://raw.githubusercontent.com/nayagamez/codex-cli-mcp/main/docs/guide/installation.md
+```
+
+### 수동 설정
+
+<details>
+<summary>Claude Desktop</summary>
 
 `claude_desktop_config.json`에 추가:
 
@@ -111,7 +118,10 @@ npx @nayagamez/codex-cli-mcp
 }
 ```
 
-### Cursor / Windsurf
+</details>
+
+<details>
+<summary>Cursor / Windsurf</summary>
 
 MCP 설정에 추가:
 
@@ -126,11 +136,16 @@ MCP 설정에 추가:
 }
 ```
 
-### Claude Code
+</details>
+
+<details>
+<summary>Claude Code</summary>
 
 ```bash
 claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
 ```
+
+</details>
 
 ## Progress Notifications
 

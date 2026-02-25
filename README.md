@@ -54,18 +54,6 @@ export OPENAI_API_KEY="your-api-key"
 
 See the [Codex Authentication docs](https://developers.openai.com/codex/auth/) for more details.
 
-## Installation
-
-```bash
-npm install -g @nayagamez/codex-cli-mcp
-```
-
-Or run directly with npx:
-
-```bash
-npx @nayagamez/codex-cli-mcp
-```
-
 ## Tools
 
 ### `codex`
@@ -94,9 +82,28 @@ Continue an existing Codex CLI session.
 | `config` | object | No | Config overrides as key-value pairs |
 | `timeout` | number | No | Timeout in ms (default: `600000` = 10 min) |
 
-## MCP Client Configuration
+## Setup
 
-### Claude Desktop
+### For Humans
+
+Copy the prompt below and paste it into your LLM agent — it will install and configure everything automatically:
+
+```
+Install and configure @nayagamez/codex-cli-mcp by following: https://raw.githubusercontent.com/nayagamez/codex-cli-mcp/main/docs/guide/installation.md
+```
+
+Or set it up manually — see [Manual Setup](#manual-setup) below.
+
+### For LLM Agents
+
+```bash
+curl -s https://raw.githubusercontent.com/nayagamez/codex-cli-mcp/main/docs/guide/installation.md
+```
+
+### Manual Setup
+
+<details>
+<summary>Claude Desktop</summary>
 
 Add to your `claude_desktop_config.json`:
 
@@ -111,7 +118,10 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-### Cursor / Windsurf
+</details>
+
+<details>
+<summary>Cursor / Windsurf</summary>
 
 Add to your MCP settings:
 
@@ -126,11 +136,16 @@ Add to your MCP settings:
 }
 ```
 
-### Claude Code
+</details>
+
+<details>
+<summary>Claude Code</summary>
 
 ```bash
 claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
 ```
+
+</details>
 
 ## Progress Notifications
 
