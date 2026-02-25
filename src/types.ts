@@ -83,6 +83,13 @@ export interface CodexResult {
 // Options for running Codex CLI
 // ---------------------------------------------------------------------------
 
+/**
+ * Callback for reporting progress during Codex execution.
+ * @param progress - incremental event counter
+ * @param message - human-readable progress message
+ */
+export type ProgressCallback = (progress: number, message: string) => void
+
 export interface CodexExecOptions {
   prompt: string
   model?: string

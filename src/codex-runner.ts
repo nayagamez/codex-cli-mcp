@@ -13,6 +13,7 @@ import type {
   CodexResumeOptions,
   CodexResult,
   CommandExecution,
+  ProgressCallback,
 } from './types.js'
 
 const DEFAULT_TIMEOUT_MS = 10 * 60 * 1000 // 10 minutes
@@ -128,13 +129,25 @@ function extractTextFromContent(
   return ''
 }
 
+interface RunCodexOptions {
+  command: string
+  args: string[]
+  stdinContent: string
+  overrideTimeoutMs?: number
+  onProgress?: ProgressCallback
+}
+
 /**
  * Run a Codex CLI subprocess and collect the result.
+ * Timeout resets on every event received (idle-based timeout).
  */
-function runCodex(command: string, args: string[], stdinContent: string, overrideTimeoutMs?: number): Promise<CodexResult> {
+function runCodex(opts: RunCodexOptions): Promise<CodexResult> {
   return new Promise((resolve, reject) => {
+    const { command, args, stdinContent, overrideTimeoutMs, onProgress } = opts
     const timeoutMs = overrideTimeoutMs && overrideTimeoutMs > 0 ? overrideTimeoutMs : getTimeoutMs()
     const shellCmd = buildShellCommand(command, args)
+    const startTime = Date.now()
+    let eventCount = 0
 
     log.debug('Spawning:', shellCmd)
 
@@ -155,14 +168,30 @@ function runCodex(command: string, args: string[], stdinContent: string, overrid
     let lineBuffer = ''
     let settled = false
 
-    const timer = setTimeout(() => {
-      if (!settled) {
-        settled = true
-        proc.kill('SIGTERM')
-        result.errors.push(`Timeout: process killed after ${timeoutMs}ms`)
-        resolve(result)
-      }
-    }, timeoutMs)
+    // Idle-based timeout: resets every time we receive an event
+    let timer: ReturnType<typeof setTimeout>
+
+    function resetIdleTimer(): void {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        if (!settled) {
+          settled = true
+          proc.kill('SIGTERM')
+          const elapsed = Math.round((Date.now() - startTime) / 1000)
+          result.errors.push(`Idle timeout: no activity for ${timeoutMs / 1000}s (total elapsed: ${elapsed}s)`)
+          resolve(result)
+        }
+      }, timeoutMs)
+    }
+
+    resetIdleTimer()
+
+    function sendProgress(message: string): void {
+      if (!onProgress) return
+      eventCount++
+      const elapsed = Math.round((Date.now() - startTime) / 1000)
+      onProgress(eventCount, `[${elapsed}s] ${message}`)
+    }
 
     function processLine(line: string): void {
       const trimmed = line.trim()
@@ -174,11 +203,15 @@ function runCodex(command: string, args: string[], stdinContent: string, overrid
         return
       }
 
+      // Reset idle timer on every parsed event
+      resetIdleTimer()
+
       log.debug('Event:', event.type)
 
       switch (event.type) {
         case 'thread.started':
           result.threadId = event.thread_id
+          sendProgress(`Session started (thread: ${event.thread_id})`)
           break
 
         case 'item.completed': {
@@ -205,11 +238,14 @@ function runCodex(command: string, args: string[], stdinContent: string, overrid
               }
             }
             result.commands.push(cmd)
+            sendProgress(`Command executed: ${cmd.command}`)
           } else {
             // Agent message or reasoning — text may be in item.content or item.text
             const text = extractTextFromContent(item.content) || (typeof item.text === 'string' ? item.text : '')
             if (text) {
               result.messages.push(text)
+              const preview = text.length > 80 ? text.slice(0, 80) + '...' : text
+              sendProgress(`Message: ${preview}`)
             }
           }
           break
@@ -222,16 +258,23 @@ function runCodex(command: string, args: string[], stdinContent: string, overrid
               outputTokens: event.usage.output_tokens ?? 0,
             }
           }
+          sendProgress('Turn completed')
           break
 
         case 'turn.failed':
           if (event.error) {
             result.errors.push(event.error)
+            sendProgress(`Turn failed: ${event.error}`)
           }
           break
 
         case 'error':
           result.errors.push(event.error || event.message || 'Unknown error')
+          sendProgress(`Error: ${event.error || event.message || 'Unknown'}`)
+          break
+
+        default:
+          sendProgress(`Event: ${event.type}`)
           break
       }
     }
@@ -246,6 +289,8 @@ function runCodex(command: string, args: string[], stdinContent: string, overrid
     })
 
     proc.stderr?.on('data', (data: Buffer) => {
+      // stderr activity also resets the idle timer
+      resetIdleTimer()
       log.debug('[codex stderr]', data.toString())
     })
 
@@ -285,19 +330,19 @@ function runCodex(command: string, args: string[], stdinContent: string, overrid
 /**
  * Execute a new Codex session.
  */
-export async function execCodex(options: CodexExecOptions): Promise<CodexResult> {
+export async function execCodex(options: CodexExecOptions, onProgress?: ProgressCallback): Promise<CodexResult> {
   const command = getCodexCommand()
   const args = buildExecArgs(options)
   log.info('Starting new Codex session')
-  return runCodex(command, args, options.prompt, options.timeout)
+  return runCodex({ command, args, stdinContent: options.prompt, overrideTimeoutMs: options.timeout, onProgress })
 }
 
 /**
  * Resume an existing Codex session.
  */
-export async function resumeCodex(options: CodexResumeOptions): Promise<CodexResult> {
+export async function resumeCodex(options: CodexResumeOptions, onProgress?: ProgressCallback): Promise<CodexResult> {
   const command = getCodexCommand()
   const args = buildResumeArgs(options)
   log.info(`Resuming Codex session: ${options.threadId}`)
-  return runCodex(command, args, options.prompt, options.timeout)
+  return runCodex({ command, args, stdinContent: options.prompt, overrideTimeoutMs: options.timeout, onProgress })
 }

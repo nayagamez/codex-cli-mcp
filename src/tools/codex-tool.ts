@@ -32,9 +32,19 @@ const schema = {
 }
 
 export function registerCodexTool(server: McpServer): void {
-  server.tool('codex', DESCRIPTION, schema, async ({ prompt, model, sandbox, cwd, profile, config, timeout }) => {
+  server.tool('codex', DESCRIPTION, schema, async ({ prompt, model, sandbox, cwd, profile, config, timeout }, extra) => {
     try {
-      const result = await execCodex({ prompt, model, sandbox, cwd, profile, config, timeout })
+      const progressToken = extra._meta?.progressToken
+      const onProgress = progressToken !== undefined
+        ? (progress: number, message: string) => {
+            extra.sendNotification({
+              method: 'notifications/progress' as const,
+              params: { progressToken, progress, message },
+            }).catch(() => {})  // best-effort
+          }
+        : undefined
+
+      const result = await execCodex({ prompt, model, sandbox, cwd, profile, config, timeout }, onProgress)
       const text = formatResult(result)
       const isError = result.errors.length > 0 && result.messages.length === 0
 

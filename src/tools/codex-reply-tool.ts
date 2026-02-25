@@ -29,9 +29,19 @@ const schema = {
 }
 
 export function registerCodexReplyTool(server: McpServer): void {
-  server.tool('codex-reply', DESCRIPTION, schema, async ({ prompt, threadId, model, config, timeout }) => {
+  server.tool('codex-reply', DESCRIPTION, schema, async ({ prompt, threadId, model, config, timeout }, extra) => {
     try {
-      const result = await resumeCodex({ prompt, threadId, model, config, timeout })
+      const progressToken = extra._meta?.progressToken
+      const onProgress = progressToken !== undefined
+        ? (progress: number, message: string) => {
+            extra.sendNotification({
+              method: 'notifications/progress' as const,
+              params: { progressToken, progress, message },
+            }).catch(() => {})  // best-effort
+          }
+        : undefined
+
+      const result = await resumeCodex({ prompt, threadId, model, config, timeout }, onProgress)
       const text = formatResult(result)
       const isError = result.errors.length > 0 && result.messages.length === 0
 
