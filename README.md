@@ -24,14 +24,35 @@ An MCP (Model Context Protocol) server that wraps [OpenAI Codex CLI](https://git
 
 ## Prerequisites
 
-1. Install [Codex CLI](https://github.com/openai/codex) and make sure it is available in your PATH:
-   ```bash
-   npm install -g @openai/codex
-   ```
-2. Set your OpenAI API key:
-   ```bash
-   export OPENAI_API_KEY="your-api-key"
-   ```
+### 1. Install Codex CLI
+
+Install [Codex CLI](https://github.com/openai/codex) ([docs](https://developers.openai.com/codex/cli)) and make sure it is available in your PATH:
+
+```bash
+# npm
+npm install -g @openai/codex
+
+# Homebrew (macOS)
+brew install --cask codex
+```
+
+Or download the binary from [GitHub Releases](https://github.com/openai/codex/releases/latest).
+
+### 2. Authenticate
+
+**Option A — ChatGPT Login (Recommended)**
+
+Run `codex` and select "Sign in with ChatGPT". Requires a Plus, Pro, Team, Edu, or Enterprise plan.
+
+**Option B — API Key**
+
+For headless / CI environments:
+
+```bash
+export OPENAI_API_KEY="your-api-key"
+```
+
+See the [Codex Authentication docs](https://developers.openai.com/codex/auth/) for more details.
 
 ## Installation
 

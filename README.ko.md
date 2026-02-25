@@ -24,14 +24,35 @@
 
 ## 사전 준비
 
-1. [Codex CLI](https://github.com/openai/codex)를 설치하고 PATH에 등록합니다:
-   ```bash
-   npm install -g @openai/codex
-   ```
-2. OpenAI API 키를 설정합니다:
-   ```bash
-   export OPENAI_API_KEY="your-api-key"
-   ```
+### 1. Codex CLI 설치
+
+[Codex CLI](https://github.com/openai/codex) ([문서](https://developers.openai.com/codex/cli))를 설치하고 PATH에 등록합니다:
+
+```bash
+# npm
+npm install -g @openai/codex
+
+# Homebrew (macOS)
+brew install --cask codex
+```
+
+또는 [GitHub Releases](https://github.com/openai/codex/releases/latest)에서 바이너리를 직접 다운로드할 수 있습니다.
+
+### 2. 인증
+
+**방법 A — ChatGPT 로그인 (권장)**
+
+`codex`를 실행하고 "Sign in with ChatGPT"를 선택합니다. Plus, Pro, Team, Edu, Enterprise 플랜이 필요합니다.
+
+**방법 B — API Key**
+
+헤드리스 / CI 환경에서 사용:
+
+```bash
+export OPENAI_API_KEY="your-api-key"
+```
+
+자세한 내용은 [Codex 인증 문서](https://developers.openai.com/codex/auth/)를 참고하세요.
 
 ## 설치
 
