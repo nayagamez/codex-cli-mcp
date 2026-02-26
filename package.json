@@ -1,6 +1,6 @@
 {
   "name": "@nayagamez/codex-cli-mcp",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "MCP server wrapping Codex CLI (codex exec) as tools",
   "type": "module",
   "main": "dist/index.js",
