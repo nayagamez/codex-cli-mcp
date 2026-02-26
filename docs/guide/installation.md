@@ -39,9 +39,51 @@ See the [Codex Authentication docs](https://developers.openai.com/codex/auth/) f
 
 ## 2. Configure MCP Client
 
-Add `codex-cli-mcp` to your MCP client. Choose the section that matches your client.
+### 2.1 Ask the user for scope
+
+**STOP — you must ask the user before proceeding.**
+
+Ask the user in the same language they are using (e.g. if the conversation is in Korean, ask in Korean).
+
+Ask: "Where do you want codex-cli-mcp available?"
+
+| Choice | Meaning |
+|--------|---------|
+| **This project only (private)** | Only me, only this project |
+| **This project (shared with team)** | Everyone on the team, this project (committable to git) |
+| **All projects (global)** | Only me, across all projects |
+
+Wait for the user's answer, then use it in the steps below.
+
+### 2.2 Detect the MCP client
+
+Determine which MCP client you are running in (Claude Code, Claude Desktop, Cursor, or Windsurf), then follow the matching section.
+
+### Claude Code
+
+All options must come **before** the server name.
+
+- If user chose **This project only (private)**:
+
+```bash
+claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
+```
+
+- If user chose **This project (shared with team)**:
+
+```bash
+claude mcp add --scope project codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
+```
+
+- If user chose **All projects (global)**:
+
+```bash
+claude mcp add --scope user codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
+```
 
 ### Claude Desktop
+
+Claude Desktop only supports global configuration.
 
 Add to `claude_desktop_config.json`:
 
@@ -63,7 +105,8 @@ Restart Claude Desktop after saving.
 
 ### Cursor
 
-Add to your Cursor MCP settings (`.cursor/mcp.json` in your project or global settings):
+- If user chose **This project only (private)** or **This project (shared with team)** → add to `.cursor/mcp.json` in the project root
+- If user chose **All projects (global)** → add to `~/.cursor/mcp.json`
 
 ```json
 {
@@ -78,7 +121,8 @@ Add to your Cursor MCP settings (`.cursor/mcp.json` in your project or global se
 
 ### Windsurf
 
-Add to your Windsurf MCP settings:
+- If user chose **This project only (private)** or **This project (shared with team)** → add to `.windsurf/mcp.json` in the project root
+- If user chose **All projects (global)** → add via Windsurf settings UI
 
 ```json
 {
@@ -89,14 +133,6 @@ Add to your Windsurf MCP settings:
     }
   }
 }
-```
-
-### Claude Code
-
-Run the following command:
-
-```bash
-claude mcp add codex-cli-mcp -- npx -y @nayagamez/codex-cli-mcp
 ```
 
 ## 3. Verify
