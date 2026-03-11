@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2026-03-11
+
+### Added
+- `effort` parameter for both `codex` and `codex-reply` tools (`medium`, `high`, `xhigh`)
+- LLM agents auto-select reasoning effort based on task complexity
+
+### Changed
+- Server version now dynamically reads from `package.json` instead of hardcoded value
+
 ## [0.3.3] - 2026-02-26
 
 ### Changed

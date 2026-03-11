@@ -18,6 +18,10 @@ const schema = {
     .string()
     .describe('The thread ID from a previous codex tool call'),
   model: z.string().optional().describe('Model name override. Do NOT set this unless the user explicitly requests a specific model. Codex CLI uses its own configured default.'),
+  effort: z
+    .enum(['medium', 'high', 'xhigh'])
+    .optional()
+    .describe('Reasoning effort level. Auto-select based on task complexity: medium for simple tasks (quick questions, small edits), high for moderate tasks (bug fixes, features), xhigh for complex tasks (architecture, multi-file refactoring). Do NOT set if the user explicitly requests a specific level.'),
   config: z
     .record(z.string(), z.string())
     .optional()
@@ -29,7 +33,7 @@ const schema = {
 }
 
 export function registerCodexReplyTool(server: McpServer): void {
-  server.tool('codex-reply', DESCRIPTION, schema, async ({ prompt, threadId, model, config, timeout }, extra) => {
+  server.tool('codex-reply', DESCRIPTION, schema, async ({ prompt, threadId, model, effort, config, timeout }, extra) => {
     try {
       const progressToken = extra._meta?.progressToken
       const onProgress = progressToken !== undefined
@@ -41,7 +45,7 @@ export function registerCodexReplyTool(server: McpServer): void {
           }
         : undefined
 
-      const result = await resumeCodex({ prompt, threadId, model, config, timeout }, onProgress)
+      const result = await resumeCodex({ prompt, threadId, model, effort, config, timeout }, onProgress)
       const text = formatResult(result)
       const isError = result.errors.length > 0 && result.messages.length === 0
 

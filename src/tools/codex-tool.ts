@@ -15,6 +15,10 @@ Use this tool to start a new coding task with Codex. The response includes a Thr
 const schema = {
   prompt: z.string().describe('The prompt to send to Codex'),
   model: z.string().optional().describe('Model name override. Do NOT set this unless the user explicitly requests a specific model. Codex CLI uses its own configured default.'),
+  effort: z
+    .enum(['medium', 'high', 'xhigh'])
+    .optional()
+    .describe('Reasoning effort level. Auto-select based on task complexity: medium for simple tasks (quick questions, small edits), high for moderate tasks (bug fixes, features), xhigh for complex tasks (architecture, multi-file refactoring). Do NOT set if the user explicitly requests a specific level.'),
   sandbox: z
     .enum(['read-only', 'workspace-write', 'danger-full-access'])
     .optional()
@@ -32,7 +36,7 @@ const schema = {
 }
 
 export function registerCodexTool(server: McpServer): void {
-  server.tool('codex', DESCRIPTION, schema, async ({ prompt, model, sandbox, cwd, profile, config, timeout }, extra) => {
+  server.tool('codex', DESCRIPTION, schema, async ({ prompt, model, effort, sandbox, cwd, profile, config, timeout }, extra) => {
     try {
       const progressToken = extra._meta?.progressToken
       const onProgress = progressToken !== undefined
@@ -44,7 +48,7 @@ export function registerCodexTool(server: McpServer): void {
           }
         : undefined
 
-      const result = await execCodex({ prompt, model, sandbox, cwd, profile, config, timeout }, onProgress)
+      const result = await execCodex({ prompt, model, effort, sandbox, cwd, profile, config, timeout }, onProgress)
       const text = formatResult(result)
       const isError = result.errors.length > 0 && result.messages.length === 0
 

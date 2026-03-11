@@ -6,16 +6,22 @@
  * stdout is reserved for JSON-RPC; all diagnostics go to stderr.
  */
 
+import { readFileSync } from 'fs'
+import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'path'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { registerCodexTool } from './tools/codex-tool.js'
 import { registerCodexReplyTool } from './tools/codex-reply-tool.js'
 import log from './util/logger.js'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const pkg = JSON.parse(readFileSync(resolve(__dirname, '..', 'package.json'), 'utf-8'))
+
 async function main(): Promise<void> {
   const server = new McpServer({
     name: 'codex',
-    version: '1.0.0',
+    version: pkg.version,
   })
 
   registerCodexTool(server)

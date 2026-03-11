@@ -49,6 +49,9 @@ function buildExecArgs(options: CodexExecOptions): string[] {
   if (options.model) {
     args.push('-m', options.model)
   }
+  if (options.effort) {
+    args.push('-c', `model_reasoning_effort=${options.effort}`)
+  }
   if (options.sandbox) {
     args.push('-s', options.sandbox)
   }
@@ -79,6 +82,9 @@ function buildResumeArgs(options: CodexResumeOptions): string[] {
 
   if (options.model) {
     args.push('-m', options.model)
+  }
+  if (options.effort) {
+    args.push('-c', `model_reasoning_effort=${options.effort}`)
   }
   if (options.config) {
     for (const [key, value] of Object.entries(options.config)) {

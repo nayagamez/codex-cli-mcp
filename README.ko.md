@@ -63,7 +63,8 @@ export OPENAI_API_KEY="your-api-key"
 | 파라미터 | 타입 | 필수 | 설명 |
 |----------|------|------|------|
 | `prompt` | string | O | Codex에 보낼 프롬프트 |
-| `model` | string | X | 모델명 (예: `o4-mini`, `gpt-4.1`, `o3`) |
+| `model` | string | X | 모델명 오버라이드 |
+| `effort` | enum | X | 추론 노력도: `medium`, `high`, `xhigh` (작업 복잡도에 따라 자동 선택) |
 | `sandbox` | enum | X | `read-only`, `workspace-write`, `danger-full-access` |
 | `cwd` | string | X | 작업 디렉토리 |
 | `profile` | string | X | config.toml의 프로필 |
@@ -79,6 +80,7 @@ export OPENAI_API_KEY="your-api-key"
 | `prompt` | string | O | 후속 프롬프트 |
 | `threadId` | string | O | 이전 `codex` 호출에서 받은 Thread ID |
 | `model` | string | X | 모델명 오버라이드 |
+| `effort` | enum | X | 추론 노력도: `medium`, `high`, `xhigh` (작업 복잡도에 따라 자동 선택) |
 | `config` | object | X | key-value 형태의 설정 오버라이드 |
 | `timeout` | number | X | 타임아웃 ms (기본값: `600000` = 10분) |
 

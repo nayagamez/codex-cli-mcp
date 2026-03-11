@@ -90,9 +90,12 @@ export interface CodexResult {
  */
 export type ProgressCallback = (progress: number, message: string) => void
 
+export type ReasoningEffort = 'medium' | 'high' | 'xhigh'
+
 export interface CodexExecOptions {
   prompt: string
   model?: string
+  effort?: ReasoningEffort
   sandbox?: 'read-only' | 'workspace-write' | 'danger-full-access'
   cwd?: string
   profile?: string
@@ -104,6 +107,7 @@ export interface CodexResumeOptions {
   prompt: string
   threadId: string
   model?: string
+  effort?: ReasoningEffort
   config?: Record<string, string>
   timeout?: number
 }
