@@ -56,6 +56,8 @@ export OPENAI_API_KEY="your-api-key"
 
 ## 도구
 
+> 사용 가능한 모델은 [Codex Models](https://developers.openai.com/codex/models)를 참고하세요.
+
 ### `codex`
 
 새 Codex CLI 세션을 시작합니다.

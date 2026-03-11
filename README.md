@@ -56,6 +56,8 @@ See the [Codex Authentication docs](https://developers.openai.com/codex/auth/) f
 
 ## Tools
 
+> See [Codex Models](https://developers.openai.com/codex/models) for available models.
+
 ### `codex`
 
 Start a new Codex CLI session.
