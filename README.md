@@ -66,7 +66,7 @@ Start a new Codex CLI session.
 |-----------|------|----------|-------------|
 | `prompt` | string | Yes | The prompt to send to Codex |
 | `model` | string | No | Model name override |
-| `effort` | enum | No | Reasoning effort: `medium`, `high`, `xhigh` (auto-selected by task complexity) |
+| `effort` | enum | No | Reasoning effort: `medium`, `high`, `xhigh`, `max` (auto-selected by task complexity) |
 | `sandbox` | enum | No | `read-only`, `workspace-write`, or `danger-full-access` |
 | `cwd` | string | No | Working directory for the session |
 | `profile` | string | No | Configuration profile from config.toml |
@@ -82,7 +82,7 @@ Continue an existing Codex CLI session.
 | `prompt` | string | Yes | The follow-up prompt |
 | `threadId` | string | Yes | Thread ID from a previous `codex` call |
 | `model` | string | No | Model name override |
-| `effort` | enum | No | Reasoning effort: `medium`, `high`, `xhigh` (auto-selected by task complexity) |
+| `effort` | enum | No | Reasoning effort: `medium`, `high`, `xhigh`, `max` (auto-selected by task complexity) |
 | `config` | object | No | Config overrides as key-value pairs |
 | `timeout` | number | No | Timeout in ms (default: `600000` = 10 min) |
 

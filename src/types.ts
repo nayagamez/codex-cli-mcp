@@ -90,7 +90,7 @@ export interface CodexResult {
  */
 export type ProgressCallback = (progress: number, message: string) => void
 
-export type ReasoningEffort = 'medium' | 'high' | 'xhigh'
+export type ReasoningEffort = 'medium' | 'high' | 'xhigh' | 'max'
 
 export interface CodexExecOptions {
   prompt: string

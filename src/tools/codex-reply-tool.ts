@@ -17,11 +17,11 @@ const schema = {
   threadId: z
     .string()
     .describe('The thread ID from a previous codex tool call'),
-  model: z.string().optional().describe('Model name override. Do NOT set this unless the user explicitly requests a specific model. Codex CLI uses its own configured default.'),
+  model: z.string().optional().describe('Model name override. Do NOT set this unless the user explicitly requests a specific model or asks for the "latest" model — Codex CLI uses its own configured default. Known models: gpt-5.6-sol (latest, supports effort max)'),
   effort: z
-    .enum(['medium', 'high', 'xhigh'])
+    .enum(['medium', 'high', 'xhigh', 'max'])
     .optional()
-    .describe('Reasoning effort level. Auto-select based on task complexity: medium for simple tasks (quick questions, small edits), high for moderate tasks (bug fixes, features), xhigh for complex tasks (architecture, multi-file refactoring). Do NOT set if the user explicitly requests a specific level.'),
+    .describe('Reasoning effort level. Auto-select based on task complexity: medium for simple tasks (quick questions, small edits), high for moderate tasks (bug fixes, features), xhigh for complex tasks (architecture, multi-file refactoring), max for the hardest tasks (deep analysis, large-scale design). Do NOT set if the user explicitly requests a specific level.'),
   config: z
     .record(z.string(), z.string())
     .optional()

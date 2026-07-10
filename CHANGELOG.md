@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.2] - 2026-07-10
+
+### Added
+- `max` reasoning effort level for both `codex` and `codex-reply` tools
+- Known models hint in `model` parameter description (`gpt-5.6-sol`) so LLM agents can resolve "latest model" requests correctly
+
 ## [0.4.0] - 2026-03-11
 
 ### Added
